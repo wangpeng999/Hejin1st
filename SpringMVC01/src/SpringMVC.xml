@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/aop 
+                           http://www.springframework.org/schema/aop/spring-aop.xsd
+                           http://www.springframework.org/schema/tx 
+                           http://www.springframework.org/schema/tx/spring-tx.xsd
+                           http://www.springframework.org/schema/context 
+                           http://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/mvc 
+                           http://www.springframework.org/schema/context/spring-mvc.xsd">
+	<!-- 配置处理器映射器，SpringMVC默认的处理器映射器 BeanNameUrlHandlerMapping： 根据bean(自定义Controler)的name属性的url去寻找hanler(Action:Controller) -->
+	<bean
+		class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping" />
+	<!-- 简单的处理映射器 -->
+	<bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="mappings">
+		<props>
+		<prop key="/hello.do">my1stController</prop>
+		<prop key="/user.do">userController</prop>
+		<prop key="/product.do">productController</prop>
+		<prop key="/touser.do">toUserController</prop>
+		
+		</props>
+		</property>
+	</bean>
+	<!-- 定义通过类名.do的格式来 访问controller,类名首字母小写-->
+	
+	<!-- 配置处理器适配器执行Controlelr , SpringMVC默认的 SimpleControllerHandlerAdapter:执行Controller -->
+	<bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter" />
+	<!-- 配置能够执行实现了HttpRequestHandler接口适配器HttpRequestHandlerAdapter -->
+		<bean class="org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter"/>
+	<!-- 配置自定义Controler -->
+	<bean id="my1stController" name="/hello.do" class="com.wangpeng.controller.My1stController" />
+	<bean id="userController" class="com.wangpeng.controller.UserController"/>
+	<bean id="productController" class="com.wangpeng.controller.ProductController"/>
+	<bean id="toUserController" class="com.wangpeng.controller.ToAddUserController"/>
+	<!-- 配置sprigmvc视图解析器：解析逻辑视图 后台返回逻辑试图：index 视图解析器解析出真正物理视图：前缀+逻辑试图+后缀====/WEB-INF/jsps/index.jsp -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/jsp/"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+</beans>
